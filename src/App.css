@@ -1,33 +1,106 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
+}
+.wrapper {
+  height: auto;
+  width: 100%;
+  font-size: 14px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.grid-view {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.grid-items {
+  margin: 10px 20px;
+}
+
+.grid-items-center {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+}
+
+.input-class {
+  width: 90%;
+  height: 25px;
+  padding: 0px 5px;
+  background: #d1d1d1;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+}
+
+.text-area-class {
+  width: 90%;
+  background: #d1d1d1;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+}
+
+.table-view {
+  width: 95%;
+  height: auto;
+  margin: 20px;
+}
+
+.create-button {
+  height: auto;
+  width: 60px;
+  padding: 3px 10px;
+  background: lightgreen;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 5%;
+  box-shadow: 2px 2px 2px #888888;
+}
+
+.create-button:hover {
+  box-shadow: 2px 5px 5px #888888;
+}
+
+.create-button:active {
+  box-shadow: 2px 2px 2px #888888;
+}
+
+.create-div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.table-class {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #ddd;
+  padding: 12px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: darkgrey;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
 }

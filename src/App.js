@@ -3,6 +3,7 @@ import InputField from "./components/inputField";
 import RadioButton from "./components/radioButton";
 import TextArea from "./components/textArea";
 import TableClass from "./components/table";
+import CheckBox from "./components/checkBox"
 import "./App.css";
 
 class App extends Component {
@@ -10,7 +11,7 @@ class App extends Component {
     male: true,
     female: false,
     state: true,
-    sameAdd: true,
+    sameAdd: false,
     userDetails: {
       firstName: "",
       lastName: "",
@@ -27,7 +28,20 @@ class App extends Component {
     if (key === "gender") {
       this.setGender();
     } else if (key === "perAdd") {
-      console.log("addr");
+      let sameAdd = this.state.sameAdd;
+      this.setState({
+        sameAdd: !sameAdd
+      })
+      let userDetails = this.state.userDetails;
+      if(sameAdd){   
+        userDetails.perAdd = this.state.userDetails.commAdd;
+        console.log(userDetails.perAdd) 
+      } else {
+        userDetails.perAdd = "";
+      }
+      this.setState({
+        userDetails
+      })
     }
   };
 
@@ -143,9 +157,8 @@ class App extends Component {
               value={this.state.userDetails.commAdd}
             />
             <div>
-              <RadioButton
+              <CheckBox
                 value={"perAdd"}
-                checked={this.state.sameAdd}
                 onChange={event => this.checkedValue("perAdd", event)}
               />
               Communication address is the same as permanent address

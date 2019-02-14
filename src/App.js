@@ -14,7 +14,7 @@ class App extends Component {
       firstName: "",
       lastName: "",
       dob: "",
-      gender: "",
+      gender: "Male",
       email: "",
       phone: "",
       commAdd: "",
@@ -22,84 +22,48 @@ class App extends Component {
     },
     row: []
   };
-  checkedValue = () => {
-    console.log(this.state.male, this.state.female);
-    let male = this.state.male;
-    if (male === true) {
-      this.setState({ male: !male });
-      this.setState({ female: male });
-    } else {
-      this.setState({ male: !male });
-      this.setState({ female: male });
+  checkedValue = key => {
+    if (key == "gender") {
+      let userDetails = this.state.userDetails;
+      let male = this.state.male;
+      this.setState({
+        male: !male,
+        female: male
+      });
+      userDetails.gender = !this.state.male ? "Male" : "Female";
+      this.setState({
+        userDetails
+      });
+    } else if (key == "perAdd") {
     }
-
-    console.log(this.state.male, this.state.female);
   };
 
   createOnClick = () => {
     let rows = this.state.row;
-    let userDetails=this.state.userDetails
-    rows.push({...userDetails,id:rows.length});
+    let userDetails = this.state.userDetails;
+    rows.push({ ...userDetails, id: rows.length });
     this.setState({
       row: rows
     });
-    console.log(this.state.row)
+    this.setState({
+      userDetails: {
+        firstName: "",
+        lastName: "",
+        dob: "",
+        gender: "Male",
+        email: "",
+        phone: "",
+        commAdd: "",
+        perAdd: ""
+      }
+    });
+    console.log(this.state.userDetails);
   };
 
   inputFieldOnChange = (key, event) => {
-  //   let firstName;
-  //   let lastName;
-  //   let dob;
-  //   let gender;
-  //   let email;
-  //   let phone;
-  //   let commAdd;
-  //   let perAdd;
-  //   let value=event.target.value;
-  //   switch (key) {
-  //     case "FirstName":
-  //       firstName = value;
-  //       console.log(firstName)
-  //       break;
-  //     case "LastName":
-  //       lastName = value;
-  //       break;
-  //     case "DOB":
-  //       dob = value;
-  //       break;
-  //     case "Gender":
-  //       gender = value;
-  //       break;
-  //     case "Email":
-  //       email = value;
-  //       break;
-  //     case "Phone":
-  //       phone = value;
-  //       break;
-  //     case "CommunicationAddress":
-  //       commAdd = value;
-  //       break;
-  //     case "PermanentAddress":
-  //       perAdd = value;
-  //       break;
-  //     default:
-  //   }
-
-  //   this.setState({
-  //     userDetails: {
-  //       firstName: firstName,
-  //       lastName: lastName,
-  //       dob: dob,
-  //       gender: gender,
-  //       email: email,
-  //       phone: phone,
-  //       commAdd: commAdd,
-  //       perAdd: perAdd
-  //     }
-  //   });
-  let userDetails=this.state.userDetails;
-  userDetails[key]=event.target.value;
-  this.setState({userDetails})
+    let userDetails = this.state.userDetails;
+    userDetails[key] = event.target.value;
+    this.setState({ userDetails });
   };
 
   render() {
@@ -111,7 +75,7 @@ class App extends Component {
             <br />
             <InputField
               type="text"
-              onChange={(event) => this.inputFieldOnChange("firstName",event)}
+              onChange={event => this.inputFieldOnChange("firstName", event)}
               value={this.state.userDetails.firstName}
             />
           </div>
@@ -120,7 +84,7 @@ class App extends Component {
             <br />
             <InputField
               type="text"
-              onChange={(event) => this.inputFieldOnChange("lastName")}
+              onChange={event => this.inputFieldOnChange("lastName", event)}
             />
           </div>
           <div className="grid-items">
@@ -128,7 +92,7 @@ class App extends Component {
             <br />
             <InputField
               type="date"
-              onChange={() => this.inputFieldOnChange("DOB")}
+              onChange={event => this.inputFieldOnChange("dob", event)}
             />
           </div>
           <div className="grid-items">
@@ -137,13 +101,13 @@ class App extends Component {
             <RadioButton
               value={"Male"}
               checked={this.state.male}
-              onClick={() => this.checkedValue()}
+              onChange={event => this.checkedValue("gender", event)}
             />{" "}
             Male
             <RadioButton
               value={"Female"}
               checked={this.state.female}
-              onClick={() => this.checkedValue()}
+              onChange={event => this.checkedValue("gender", event)}
             />
             Female
           </div>
@@ -152,21 +116,27 @@ class App extends Component {
             <br />
             <InputField
               type="text"
-              onChange={() => this.inputFieldOnChange("Email")}
+              onChange={event => this.inputFieldOnChange("email", event)}
             />
           </div>
           <div className="grid-items">
             Phone <br />
-            <InputField onChange={() => this.inputFieldOnChange("Phone")} />
+            <InputField
+              onChange={event => this.inputFieldOnChange("phone", event)}
+            />
           </div>
           <div className="grid-items">
             Communication Address
             <br />
             <TextArea
-              onChange={() => this.inputFieldOnChange("CommunicationAddress")}
+              onChange={event => this.inputFieldOnChange("commAdd", event)}
             />
             <div>
-              <RadioButton />
+              <RadioButton
+                value={"perAdd"}
+                checked={this.state.male}
+                onChange={event => this.checkedValue("perAdd", event)}
+              />
               Communication address is the same as permanent address
             </div>
           </div>
@@ -174,7 +144,7 @@ class App extends Component {
             Permanent Address
             <br />
             <TextArea
-              onChange={() => this.inputFieldOnChange("PermanentAddress")}
+              onChange={event => this.inputFieldOnChange("perAdd", event)}
             />
           </div>
         </div>

@@ -6,7 +6,7 @@ class RadioButton extends Component {
       <input
         type="radio"
         value={this.props.value}
-        onChange={this.props.onClick}
+        onChange={(event)=>this.props.onChange(event)}
         checked={this.props.checked}
       />
     );

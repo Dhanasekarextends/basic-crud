@@ -10,6 +10,7 @@ class App extends Component {
     male: true,
     female: false,
     state: true,
+    sameAdd: true,
     userDetails: {
       firstName: "",
       lastName: "",
@@ -23,20 +24,25 @@ class App extends Component {
     row: []
   };
   checkedValue = key => {
-    if (key == "gender") {
-      let userDetails = this.state.userDetails;
-      let male = this.state.male;
-      this.setState({
-        male: !male,
-        female: male
-      });
-      userDetails.gender = !this.state.male ? "Male" : "Female";
-      this.setState({
-        userDetails
-      });
-    } else if (key == "perAdd") {
+    if (key === "gender") {
+      this.setGender();
+    } else if (key === "perAdd") {
+      console.log("addr");
     }
   };
+
+  setGender() {
+    let male = this.state.male;
+    let userDetails = this.state.userDetails;
+    this.setState({
+      male: !male,
+      female: male
+    });
+    userDetails.gender = !this.state.male ? "Male" : "Female";
+    this.setState({
+      userDetails
+    });
+  }
 
   createOnClick = () => {
     let rows = this.state.row;
@@ -45,6 +51,7 @@ class App extends Component {
     this.setState({
       row: rows
     });
+    this.setGender();
     this.setState({
       userDetails: {
         firstName: "",
@@ -57,7 +64,6 @@ class App extends Component {
         perAdd: ""
       }
     });
-    console.log(this.state.userDetails);
   };
 
   inputFieldOnChange = (key, event) => {
@@ -85,6 +91,7 @@ class App extends Component {
             <InputField
               type="text"
               onChange={event => this.inputFieldOnChange("lastName", event)}
+              value={this.state.userDetails.lastName}
             />
           </div>
           <div className="grid-items">
@@ -93,6 +100,7 @@ class App extends Component {
             <InputField
               type="date"
               onChange={event => this.inputFieldOnChange("dob", event)}
+              value={this.state.userDetails.dob}
             />
           </div>
           <div className="grid-items">
@@ -117,12 +125,14 @@ class App extends Component {
             <InputField
               type="text"
               onChange={event => this.inputFieldOnChange("email", event)}
+              value={this.state.userDetails.email}
             />
           </div>
           <div className="grid-items">
             Phone <br />
             <InputField
               onChange={event => this.inputFieldOnChange("phone", event)}
+              value={this.state.userDetails.phone}
             />
           </div>
           <div className="grid-items">
@@ -130,11 +140,12 @@ class App extends Component {
             <br />
             <TextArea
               onChange={event => this.inputFieldOnChange("commAdd", event)}
+              value={this.state.userDetails.commAdd}
             />
             <div>
               <RadioButton
                 value={"perAdd"}
-                checked={this.state.male}
+                checked={this.state.sameAdd}
                 onChange={event => this.checkedValue("perAdd", event)}
               />
               Communication address is the same as permanent address
@@ -145,6 +156,7 @@ class App extends Component {
             <br />
             <TextArea
               onChange={event => this.inputFieldOnChange("perAdd", event)}
+              value={this.state.userDetails.perAdd}
             />
           </div>
         </div>
@@ -154,7 +166,7 @@ class App extends Component {
           </div>
         </div>
         <div className="table-view">
-          <TableClass />
+          <TableClass row={this.state.row} />
         </div>
       </div>
     );

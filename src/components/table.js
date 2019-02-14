@@ -2,6 +2,20 @@ import React, { Component } from "react";
 
 class TableClass extends Component {
   render() {
+    let usersList = this.props.row.map(userDetails => {
+      return (
+        <tr key={userDetails.id}>
+          <td>{userDetails.firstName}</td>
+          <td>{userDetails.lastName}</td>
+          <td>{userDetails.dob}</td>
+          <td>{userDetails.gender}</td>
+          <td>{userDetails.email}</td>
+          <td>{userDetails.phone}</td>
+          <td>{userDetails.commAdd}</td>
+          <td>{userDetails.perAdd}</td>
+        </tr>
+      );
+    });
     return (
       <div>
         <table className="table-class">
@@ -27,18 +41,7 @@ class TableClass extends Component {
               <th>Address 2</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Dhanasekar</td>
-              <td>Saminathan</td>
-              <td>27-09-1995</td>
-              <td>Male</td>
-              <td>dhanasekar.rohith@gmail.com</td>
-              <td>8489111279</td>
-              <td>21b/1 Nimandakarar st, kanchipuram-631502</td>
-              <td>21b/1 Nimandakarar st, kanchipuram-631502</td>
-            </tr>
-          </tbody>
+          <tbody>{usersList}</tbody>
         </table>
       </div>
     );

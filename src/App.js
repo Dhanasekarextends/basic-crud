@@ -8,15 +8,13 @@ import "./App.css";
 
 class App extends Component {
   state = {
-    male: true,
-    female: false,
     state: true,
     sameAdd: false,
     userDetails: {
       firstName: "",
       lastName: "",
       dob: "",
-      gender: "Male",
+      gender: "",
       email: "",
       phone: "",
       commAdd: "",
@@ -33,14 +31,16 @@ class App extends Component {
     },
     row: []
   };
-  checkedValue = key => {
-    if (key === "gender") {
-      this.setGender();
-    } else if (key === "perAdd") {
-      let sameAdd = !this.state.sameAdd;
-      this.setState({
-        sameAdd
-      });
+  checkedValue = (e) => {
+    let userDetails = this.state.userDetails;
+    userDetails.gender = e.target.value;
+    this.setState({
+      userDetails
+    });
+  };
+
+  perAdd=()=>{
+    let sameAdd = !this.state.sameAdd;
       let userDetails = this.state.userDetails;
       if (sameAdd) {
         userDetails.perAdd = this.state.userDetails.commAdd;
@@ -49,22 +49,9 @@ class App extends Component {
         userDetails.perAdd = "";
       }
       this.setState({
-        userDetails
+        userDetails,
+        sameAdd
       });
-    }
-  };
-
-  setGender() {
-    let male = this.state.male;
-    let userDetails = this.state.userDetails;
-    this.setState({
-      male: !male,
-      female: male
-    });
-    userDetails.gender = !this.state.male ? "Male" : "Female";
-    this.setState({
-      userDetails
-    });
   }
 
   createOnClick = () => {
@@ -74,23 +61,12 @@ class App extends Component {
     this.setState({
       row: rows
     });
-    this.setGender();
-    // userDetails:{
-    //   firstName: "",
-    //   lastName: "",
-    //   dob: "",
-    //   gender: "Male",
-    //   email: "",
-    //   phone: "",
-    //   commAdd: "",
-    //   perAdd: ""
-    // }
     this.setState({
       userDetails: {
         firstName: "",
         lastName: "",
         dob: "",
-        gender: "Male",
+        gender: "",
         email: "",
         phone: "",
         commAdd: "",
@@ -103,26 +79,32 @@ class App extends Component {
     let userDetails = this.state.userDetails;
     let errorMsgs = this.state.errorMsgs;
     let check = false;
-    Object.keys(userDetails).map((key)=> {
-     switch(key){
-       case key : errorMsgs[key] = userDetails[key] === "" ? ("*"+key+" field can't be blank") : "";
-     }
-     if(errorMsgs[key]!="")
-      check=true;
-    console.log(errorMsgs)
+    Object.keys(userDetails).map(key => {
+      switch (key) {
+        case key:
+          errorMsgs[key] =
+            userDetails[key] === "" ? "*" + key + " field can't be blank" : ""; break;
+        default :
+      }
+      if (errorMsgs[key] !== "") check = true;
+      console.log(errorMsgs);
+      return 0;
     });
-    
+
     this.setState({
       errorMsgs
     });
-    if(check===false)
-      this.createOnClick();
+    if (check === false) this.createOnClick();
   };
 
   inputFieldOnChange = (key, event) => {
     let userDetails = this.state.userDetails;
     userDetails[key] = event.target.value;
+    if(key==="commAdd" && this.state.sameAdd===true){
+      userDetails.perAdd = event.target.value;
+    }
     this.setState({ userDetails });
+
   };
 
   render() {
@@ -137,9 +119,7 @@ class App extends Component {
               onChange={event => this.inputFieldOnChange("firstName", event)}
               value={this.state.userDetails.firstName}
             />
-            <div className="error-msg">
-              {this.state.errorMsgs.firstName}
-            </div>
+            <div className="error-msg">{this.state.errorMsgs.firstName}</div>
           </div>
           <div className="grid-items">
             LastName
@@ -149,9 +129,7 @@ class App extends Component {
               onChange={event => this.inputFieldOnChange("lastName", event)}
               value={this.state.userDetails.lastName}
             />
-            <div className="error-msg">
-              {this.state.errorMsgs.lastName}
-            </div>
+            <div className="error-msg">{this.state.errorMsgs.lastName}</div>
           </div>
           <div className="grid-items">
             DOB
@@ -168,16 +146,17 @@ class App extends Component {
             <br />
             <RadioButton
               value={"Male"}
-              checked={this.state.male}
-              onChange={event => this.checkedValue("gender", event)}
+              checked={this.state.userDetails.gender === "Male"}
+              onChange={event => this.checkedValue(event)}
             />{" "}
             Male
             <RadioButton
               value={"Female"}
-              checked={this.state.female}
-              onChange={event => this.checkedValue("gender", event)}
+              checked={this.state.userDetails.gender === "Female"}
+              onChange={event => this.checkedValue(event)}
             />
             Female
+            <div className="error-msg">{this.state.errorMsgs.gender}</div>
           </div>
           <div className="grid-items">
             E-mail
@@ -208,7 +187,7 @@ class App extends Component {
             <div>
               <CheckBox
                 value={"perAdd"}
-                onChange={event => this.checkedValue("perAdd", event)}
+                onChange={event => this.perAdd(event)}
               />
               Communication address is the same as permanent address
             </div>

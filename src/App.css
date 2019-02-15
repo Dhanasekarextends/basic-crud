@@ -109,3 +109,16 @@ input[type="date"]::-webkit-outer-spin-button {
   color: red;
   font-size: 10px;
 }
+
+.action-icons {
+  color: darkgrey;
+  display: flex;
+}
+
+.icon-class{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  width: 100%;
+}

@@ -4,12 +4,14 @@ import RadioButton from "./components/radioButton";
 import TextArea from "./components/textArea";
 import TableClass from "./components/table";
 import CheckBox from "./components/checkBox";
+import "font-awesome/css/font-awesome.min.css";
 import "./App.css";
 
 class App extends Component {
   state = {
     state: true,
     sameAdd: false,
+    update: false,
     userDetails: {
       firstName: "",
       lastName: "",
@@ -31,7 +33,7 @@ class App extends Component {
     },
     row: []
   };
-  checkedValue = (e) => {
+  checkedValue = e => {
     let userDetails = this.state.userDetails;
     userDetails.gender = e.target.value;
     this.setState({
@@ -39,29 +41,33 @@ class App extends Component {
     });
   };
 
-  perAdd=()=>{
+  perAdd = () => {
     let sameAdd = !this.state.sameAdd;
-      let userDetails = this.state.userDetails;
-      if (sameAdd) {
-        userDetails.perAdd = this.state.userDetails.commAdd;
-        console.log(userDetails.perAdd);
-      } else {
-        userDetails.perAdd = "";
-      }
-      this.setState({
-        userDetails,
-        sameAdd
-      });
-  }
+    let userDetails = this.state.userDetails;
+    if (sameAdd) {
+      userDetails.perAdd = this.state.userDetails.commAdd;
+    } else {
+      userDetails.perAdd = "";
+    }
+    this.setState({
+      userDetails,
+      sameAdd
+    });
+  };
 
   createOnClick = () => {
-    let rows = this.state.row;
+    let row = this.state.row;
+    let update = false;
     let userDetails = this.state.userDetails;
-    rows.push({ ...userDetails, id: rows.length });
+
+    //let id = row.length === 0 ? 0 : (row[row.length-1].id+1);
+    this.state.update
+      ? (row[userDetails.id] = userDetails)
+      : row.push({...userDetails, id: row.length});
+
     this.setState({
-      row: rows
-    });
-    this.setState({
+      update,
+      row,
       userDetails: {
         firstName: "",
         lastName: "",
@@ -73,8 +79,20 @@ class App extends Component {
         perAdd: ""
       }
     });
+    this.idAlignment();
+    console.log(this.state.row)
   };
 
+  idAlignment=()=>{
+    let row = this.state.row;
+    for(let i=0; i<row.length; i++){
+      row[i].id = i;
+    }
+    this.setState({
+      row
+    })
+  }
+  
   validation = () => {
     let userDetails = this.state.userDetails;
     let errorMsgs = this.state.errorMsgs;
@@ -83,11 +101,11 @@ class App extends Component {
       switch (key) {
         case key:
           errorMsgs[key] =
-            userDetails[key] === "" ? "*" + key + " field can't be blank" : ""; break;
-        default :
+            userDetails[key] === "" ? "*" + key + " field can't be blank" : "";
+          break;
+        default:
       }
       if (errorMsgs[key] !== "") check = true;
-      console.log(errorMsgs);
       return 0;
     });
 
@@ -100,11 +118,29 @@ class App extends Component {
   inputFieldOnChange = (key, event) => {
     let userDetails = this.state.userDetails;
     userDetails[key] = event.target.value;
-    if(key==="commAdd" && this.state.sameAdd===true){
+    if (key === "commAdd" && this.state.sameAdd === true) {
       userDetails.perAdd = event.target.value;
     }
     this.setState({ userDetails });
+  };
 
+  deleteRow = key => {
+    let row = this.state.row;
+    row.splice(key, 1); 
+    this.setState({
+      row
+    });
+  };
+
+  editRow = key => {
+    let row = this.state.row;
+    let update = true;
+    let userDetails = this.state.userDetails;
+    userDetails = row[key];
+    this.setState({
+      update,
+      userDetails
+    });
   };
 
   render() {
@@ -148,8 +184,8 @@ class App extends Component {
               value={"Male"}
               checked={this.state.userDetails.gender === "Male"}
               onChange={event => this.checkedValue(event)}
-            />{" "}
-            Male
+            />
+            Male{" "}
             <RadioButton
               value={"Female"}
               checked={this.state.userDetails.gender === "Female"}
@@ -204,11 +240,15 @@ class App extends Component {
         </div>
         <div className="create-div">
           <div className="create-button" onClick={() => this.validation()}>
-            Create
+            {!this.state.update ? "Create" : "Update"}
           </div>
         </div>
         <div className="table-view">
-          <TableClass row={this.state.row} />
+          <TableClass
+            row={this.state.row}
+            editOnClick={key => this.editRow(key)}
+            deleteOnClick={key => this.deleteRow(key)}
+          />
         </div>
       </div>
     );

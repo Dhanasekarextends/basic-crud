@@ -13,6 +13,22 @@ class TableClass extends Component {
           <td>{userDetails.phone}</td>
           <td>{userDetails.commAdd}</td>
           <td>{userDetails.perAdd}</td>
+          <td className="action-icons">
+            <div className="icon-class">
+              <i
+                className="fa fa-pencil-square"
+                aria-hidden="true"
+                onClick={(key)=>this.props.editOnClick(userDetails.id)}
+              />
+            </div>
+            <div className="icon-class">
+              <i
+                className="fa fa-trash"
+                aria-hidden="true"
+                onClick={(key)=>this.props.deleteOnClick(userDetails.id)}
+              />
+            </div>
+          </td>
         </tr>
       );
     });
@@ -20,14 +36,15 @@ class TableClass extends Component {
       <div>
         <table className="table-class">
           <colgroup>
-            <col width="11%" />
-            <col width="11%" />
+            <col width="10%" />
+            <col width="10%" />
             <col width="8%" />
             <col width="5%" />
             <col width="17%" />
             <col width="10%" />
-            <col width="19%" />
-            <col width="19%" />
+            <col width="18%" />
+            <col width="18%" />
+            <col width="4%" />
           </colgroup>
           <thead>
             <tr>
@@ -39,6 +56,7 @@ class TableClass extends Component {
               <th>Ph. Number</th>
               <th>Address 1</th>
               <th>Address 2</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>{usersList}</tbody>

@@ -79,7 +79,6 @@ class App extends Component {
         perAdd: ""
       }
     });
-    this.idAlignment();
     console.log(this.state.row)
   };
 
@@ -130,6 +129,7 @@ class App extends Component {
     this.setState({
       row
     });
+    this.idAlignment();
   };
 
   editRow = key => {

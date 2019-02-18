@@ -7,6 +7,7 @@ class CheckBox extends Component {
         type="checkbox"
         value={this.props.value}
         onChange={(event)=>this.props.onChange(event)}
+        checked={this.props.checked}
       />
     );
   }

@@ -6,6 +6,7 @@ class InputField extends Component {
       <input
         className="input-class"
         type={this.props.type}
+        pattern={this.props.pattern}
         onChange={(event) => this.props.onChange(event)}
         value={this.props.value}
       />

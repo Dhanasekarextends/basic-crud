@@ -98,7 +98,9 @@ th {
 }
 
 input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-outer-spin-button {
+input[type="date"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -112,7 +114,6 @@ input[type="date"]::-webkit-outer-spin-button {
 
 .action-icons {
   color: darkgrey;
-  display: flex;
 }
 
 .icon-class{

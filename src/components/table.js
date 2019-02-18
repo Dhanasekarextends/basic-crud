@@ -3,6 +3,7 @@ import React, { Component } from "react";
 class TableClass extends Component {
   render() {
     let usersList = this.props.row.map(userDetails => {
+      console.log(userDetails)
       return (
         <tr key={userDetails.id}>
           <td>{userDetails.firstName}</td>

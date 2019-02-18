@@ -58,14 +58,16 @@ class App extends Component {
   createOnClick = () => {
     let row = this.state.row;
     let update = false;
+    let sameAdd = false;
     let userDetails = this.state.userDetails;
 
     //let id = row.length === 0 ? 0 : (row[row.length-1].id+1);
     this.state.update
       ? (row[userDetails.id] = userDetails)
-      : row.push({...userDetails, id: row.length});
+      : row.push({ ...userDetails, id: row.length });
 
     this.setState({
+      sameAdd,
       update,
       row,
       userDetails: {
@@ -79,23 +81,26 @@ class App extends Component {
         perAdd: ""
       }
     });
-    console.log(this.state.row)
+    console.log(this.state.row);
   };
 
-  idAlignment=()=>{
+  idAlignment = () => {
     let row = this.state.row;
-    for(let i=0; i<row.length; i++){
+    for (let i = 0; i < row.length; i++) {
       row[i].id = i;
     }
     this.setState({
       row
-    })
-  }
-  
+    });
+  };
+
   validation = () => {
     let userDetails = this.state.userDetails;
     let errorMsgs = this.state.errorMsgs;
     let check = false;
+    //let emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
     Object.keys(userDetails).map(key => {
       switch (key) {
         case key:
@@ -107,6 +112,16 @@ class App extends Component {
       if (errorMsgs[key] !== "") check = true;
       return 0;
     });
+
+    if (userDetails.phone.length < 10 || userDetails.phone.length > 11) {
+      errorMsgs["phone"] = "Enter a valid mobile number";
+      check = true;
+    }
+
+    if (!re.test(String(userDetails.email).toLowerCase())) {
+      errorMsgs["email"] = "Enter a valid Email Address";
+      check = true;
+    }
 
     this.setState({
       errorMsgs
@@ -121,22 +136,25 @@ class App extends Component {
       userDetails.perAdd = event.target.value;
     }
     this.setState({ userDetails });
+    console.log(userDetails)
   };
 
   deleteRow = key => {
-    let row = this.state.row;
-    row.splice(key, 1); 
-    this.setState({
-      row
-    });
-    this.idAlignment();
+    if (this.state.update !== true) {
+      let row = this.state.row;
+      row.splice(key, 1);
+      this.setState({
+        row
+      });
+      this.idAlignment();
+    }
   };
 
   editRow = key => {
     let row = this.state.row;
     let update = true;
     let userDetails = this.state.userDetails;
-    userDetails = row[key];
+    userDetails = {...row[key]};
     this.setState({
       update,
       userDetails
@@ -207,6 +225,7 @@ class App extends Component {
           <div className="grid-items">
             Phone <br />
             <InputField
+              type="number"
               onChange={event => this.inputFieldOnChange("phone", event)}
               value={this.state.userDetails.phone}
             />
@@ -223,6 +242,7 @@ class App extends Component {
             <div>
               <CheckBox
                 value={"perAdd"}
+                checked = {this.state.sameAdd}
                 onChange={event => this.perAdd(event)}
               />
               Communication address is the same as permanent address

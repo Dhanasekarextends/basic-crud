@@ -20,7 +20,8 @@ class App extends Component {
       email: "",
       phone: "",
       commAdd: "",
-      perAdd: ""
+      perAdd: "",
+      selectedImage: ""
     },
     errorMsgs: {
       firstName: "",
@@ -29,7 +30,8 @@ class App extends Component {
       email: "",
       phone: "",
       commAdd: "",
-      perAdd: ""
+      perAdd: "",
+      selectedImage: ""
     },
     row: []
   };
@@ -78,7 +80,8 @@ class App extends Component {
         email: "",
         phone: "",
         commAdd: "",
-        perAdd: ""
+        perAdd: "",
+        selectedImage: ""
       }
     });
     console.log(this.state.row);
@@ -106,6 +109,7 @@ class App extends Component {
         case key:
           errorMsgs[key] =
             userDetails[key] === "" ? "*" + key + " field can't be blank" : "";
+          console.log(key);
           break;
         default:
       }
@@ -123,6 +127,12 @@ class App extends Component {
       check = true;
     }
 
+    if (userDetails.selectedImage.length==0) {
+      errorMsgs["selectedImage"] = "Select an image";
+      check = true;
+    }
+    console.log(userDetails.selectedImage.length)
+
     this.setState({
       errorMsgs
     });
@@ -136,7 +146,7 @@ class App extends Component {
       userDetails.perAdd = event.target.value;
     }
     this.setState({ userDetails });
-    console.log(userDetails)
+    console.log(userDetails);
   };
 
   deleteRow = key => {
@@ -154,17 +164,37 @@ class App extends Component {
     let row = this.state.row;
     let update = true;
     let userDetails = this.state.userDetails;
-    userDetails = {...row[key]};
+    userDetails = { ...row[key] };
     this.setState({
       update,
       userDetails
     });
   };
 
+  fileSelected = (key, event) => {
+    let userDetails = this.state.userDetails;
+    userDetails.selectedImage = URL.createObjectURL(event.target.files[0]);
+    this.setState({
+      userDetails
+    });
+    console.log(event.target);
+  };
+
   render() {
     return (
       <div className="wrapper">
         <div className="grid-view">
+          <div className="grid-items">
+            Upload image
+            <br />
+            <input
+              type="file"
+              name="pic"
+              accept="image/*"
+              onChange={e => this.fileSelected("selectedImage", e)}
+            />
+            <div className="error-msg">{this.state.errorMsgs.selectedImage}</div>
+          </div>
           <div className="grid-items">
             FirstName
             <br />
@@ -242,7 +272,7 @@ class App extends Component {
             <div>
               <CheckBox
                 value={"perAdd"}
-                checked = {this.state.sameAdd}
+                checked={this.state.sameAdd}
                 onChange={event => this.perAdd(event)}
               />
               Communication address is the same as permanent address

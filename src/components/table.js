@@ -6,6 +6,7 @@ class TableClass extends Component {
       console.log(userDetails)
       return (
         <tr key={userDetails.id}>
+          <td><img className="selected-image" src={userDetails.selectedImage} /></td>
           <td>{userDetails.firstName}</td>
           <td>{userDetails.lastName}</td>
           <td>{userDetails.dob}</td>
@@ -37,6 +38,7 @@ class TableClass extends Component {
       <div>
         <table className="table-class">
           <colgroup>
+            <col width="5%" />
             <col width="10%" />
             <col width="10%" />
             <col width="8%" />
@@ -49,6 +51,7 @@ class TableClass extends Component {
           </colgroup>
           <thead>
             <tr>
+              <th>Image</th>
               <th>FirstName</th>
               <th>LastName</th>
               <th>DOB</th>
